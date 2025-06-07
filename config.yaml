@@ -1,0 +1,25 @@
+# Backup directory where database dumps will be stored
+backup_dir: "./backups"
+
+# List of databases to backup
+databases:
+  - type: postgres
+    host: localhost
+    port: 5432
+    username: postgres
+    password: your_password
+    database: mydb
+
+  - type: mysql
+    host: localhost
+    port: 3306
+    username: root
+    password: your_password
+    database: mydb
+
+  - type: mariadb
+    host: localhost
+    port: 3306
+    username: root
+    password: your_password
+    database: mydb 
