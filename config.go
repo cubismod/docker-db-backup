@@ -14,7 +14,7 @@ type DatabaseConfig struct {
 	Username  string `yaml:"username"`
 	Password  string `yaml:"password"`
 	Database  string `yaml:"database"`
-	EnableSSL bool   `yaml:"enablessl"`
+	EnableSSL string `yaml:"enablessl"`
 }
 
 // Config represents the main configuration structure
