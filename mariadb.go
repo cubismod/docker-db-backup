@@ -27,7 +27,7 @@ func (m *MariaDBBackup) Backup(backupDir string) error {
 
 	enableSSL := "1"
 
-	if m.config.SkipSSL {
+	if m.config.EnableSSL {
 		enableSSL = "0"
 	}
 

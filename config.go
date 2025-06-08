@@ -8,13 +8,13 @@ import (
 )
 
 type DatabaseConfig struct {
-	Type     string `yaml:"type"` // postgres, mariadb
-	Host     string `yaml:"host"`
-	Port     int    `yaml:"port"`
-	Username string `yaml:"username"`
-	Password string `yaml:"password"`
-	Database string `yaml:"database"`
-	SkipSSL  bool   `yaml:"skipssl"`
+	Type      string `yaml:"type"` // postgres, mariadb
+	Host      string `yaml:"host"`
+	Port      int    `yaml:"port"`
+	Username  string `yaml:"username"`
+	Password  string `yaml:"password"`
+	Database  string `yaml:"database"`
+	EnableSSL bool   `yaml:"enablessl"`
 }
 
 // Config represents the main configuration structure
