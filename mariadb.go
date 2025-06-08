@@ -25,12 +25,6 @@ func (m *MariaDBBackup) Backup(backupDir string) error {
 	timestamp := time.Now().Format("2006-01-02-15-04-05")
 	backupFile := filepath.Join(backupDir, fmt.Sprintf("%s-%s.sql", m.config.Database, timestamp))
 
-	enableSSL := "1"
-
-	if m.config.EnableSSL {
-		enableSSL = "0"
-	}
-
 	// Construct mysqldump command
 	cmd := exec.Command("mysqldump",
 		"--host="+m.config.Host,
@@ -44,7 +38,7 @@ func (m *MariaDBBackup) Backup(backupDir string) error {
 		"--add-drop-database",  // Adds DROP DATABASE statement
 		"--add-drop-table",     // Adds DROP TABLE statements
 		"--result-file="+backupFile,
-		"--ssl="+enableSSL,
+		"--ssl="+m.config.EnableSSL,
 	)
 
 	// Execute the backup
