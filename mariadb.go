@@ -26,7 +26,7 @@ func (m *MariaDBBackup) Backup(backupDir string) error {
 	backupFile := filepath.Join(backupDir, fmt.Sprintf("%s-%s.sql", m.config.Database, timestamp))
 
 	// Construct mysqldump command
-	cmd := exec.Command("/usr/bin/mariadb-dump",
+	cmd := exec.Command("mariadb-backup",
 		"--host="+m.config.Host,
 		fmt.Sprintf("--port=%d", m.config.Port),
 		"--user="+m.config.Username,
