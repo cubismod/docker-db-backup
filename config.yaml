@@ -22,4 +22,10 @@ databases:
     port: 3306
     username: root
     password: your_password
-    database: mydb 
+    database: mydb
+
+  - type: redis
+    host: localhost
+    port: 6379
+    password: your_password  # Optional, leave empty if no auth
+    database: "0"  # Redis database number (0-15)

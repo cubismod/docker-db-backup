@@ -47,6 +47,13 @@ func main() {
 				continue
 			}
 			log.Printf("Successfully backed up database: %s", dbConfig.Database)
+		case "redis":
+			backup := NewRedisBackup(dbConfig)
+			if err := backup.Backup(config.BackupDir); err != nil {
+				log.Printf("Failed to backup database %s: %v", dbConfig.Database, err)
+				continue
+			}
+			log.Printf("Successfully backed up database: %s", dbConfig.Database)
 		default:
 			log.Printf("Unsupported database type: %s", dbConfig.Type)
 		}
