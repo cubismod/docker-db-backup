@@ -1,0 +1,111 @@
+version: '3'
+
+vars:
+  BINARY_NAME: db-backup
+  DOCKER_IMAGE: docker-db-backup
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  install-tools:
+    desc: Install development tools
+    cmds:
+      - go install golang.org/x/tools/cmd/goimports@latest
+      - go install honnef.co/go/tools/cmd/staticcheck@latest
+
+  format:
+    desc: Format Go code using gofmt and goimports
+    cmds:
+      - gofmt -s -w .
+      - $(go env GOPATH)/bin/goimports -w .
+
+  format-check:
+    desc: Check if Go code is properly formatted
+    cmds:
+      - test -z "$(gofmt -l .)" || (echo "Code not formatted. Run 'task format'" && exit 1)
+      - test -z "$($(go env GOPATH)/bin/goimports -l .)" || (echo "Imports not formatted. Run 'task format'" && exit 1)
+
+  lint:
+    desc: Run static analysis with staticcheck
+    cmds:
+      - $(go env GOPATH)/bin/staticcheck ./...
+
+  vet:
+    desc: Run go vet
+    cmds:
+      - go vet ./...
+
+  test:
+    desc: Run tests
+    cmds:
+      - go test -v ./...
+
+  test-coverage:
+    desc: Run tests with coverage
+    cmds:
+      - go test -v -coverprofile=coverage.out ./...
+      - go tool cover -html=coverage.out -o coverage.html
+
+  build:
+    desc: Build the application
+    cmds:
+      - go build -o {{.BINARY_NAME}} .
+
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - rm -f {{.BINARY_NAME}}
+      - rm -f coverage.out coverage.html
+
+  deps:
+    desc: Download and verify dependencies
+    cmds:
+      - go mod download
+      - go mod verify
+      - go mod tidy
+
+  docker-build:
+    desc: Build Docker image
+    cmds:
+      - docker build -t {{.DOCKER_IMAGE}} .
+
+  docker-run:
+    desc: Run Docker container with mounted volumes
+    cmds:
+      - docker run -v $(pwd)/backups:/app/backups -v $(pwd)/config.yaml:/app/config.yaml {{.DOCKER_IMAGE}}
+
+  run:
+    desc: Run the application with default config
+    deps: [build]
+    cmds:
+      - ./{{.BINARY_NAME}}
+
+  run-with-config:
+    desc: Run the application with custom config file
+    deps: [build]
+    cmds:
+      - ./{{.BINARY_NAME}} {{.CLI_ARGS}}
+
+  check:
+    desc: Run all checks (format, vet, lint, test)
+    cmds:
+      - task: format-check
+      - task: vet
+      - task: lint
+      - task: test
+
+  ci:
+    desc: Run CI pipeline (format, check, build)
+    cmds:
+      - task: format
+      - task: check
+      - task: build
+
+  all:
+    desc: Format, check, build, and create Docker image
+    cmds:
+      - task: ci
+      - task: docker-build
