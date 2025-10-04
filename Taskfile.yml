@@ -38,17 +38,6 @@ tasks:
     cmds:
       - go vet ./...
 
-  test:
-    desc: Run tests
-    cmds:
-      - go test -v ./...
-
-  test-coverage:
-    desc: Run tests with coverage
-    cmds:
-      - go test -v -coverprofile=coverage.out ./...
-      - go tool cover -html=coverage.out -o coverage.html
-
   build:
     desc: Build the application
     cmds:

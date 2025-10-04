@@ -14,6 +14,7 @@ type DatabaseConfig struct {
 	Username  string `yaml:"username"`
 	Password  string `yaml:"password"`
 	Database  string `yaml:"database"`
+	Alias     string `yaml:"alias"`     // optional alias for backup filename
 	EnableSSL string `yaml:"enablessl"` // needs to be 0 or 1
 }
 
@@ -36,4 +37,13 @@ func LoadConfig(path string) (*Config, error) {
 	}
 
 	return &config, nil
+}
+
+// GetFilenamePrefix returns the prefix to use for backup filenames
+// Uses alias if provided, otherwise falls back to database name
+func (d *DatabaseConfig) GetFilenamePrefix() string {
+	if d.Alias != "" {
+		return d.Alias
+	}
+	return d.Database
 }

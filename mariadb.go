@@ -23,7 +23,7 @@ func NewMariaDBBackup(config DatabaseConfig) *MariaDBBackup {
 func (m *MariaDBBackup) Backup(backupDir string) error {
 	// Create timestamp for the backup file
 	timestamp := time.Now().Format("2006-01-02-15-04-05")
-	backupFile := filepath.Join(backupDir, fmt.Sprintf("%s-%s.sql", m.config.Database, timestamp))
+	backupFile := filepath.Join(backupDir, fmt.Sprintf("%s-%s.sql", m.config.GetFilenamePrefix(), timestamp))
 
 	// Construct mysqldump command
 	cmd := exec.Command("/usr/bin/mariadb-dump",

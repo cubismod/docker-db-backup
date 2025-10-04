@@ -24,7 +24,7 @@ func NewPostgresBackup(config DatabaseConfig) *PostgresBackup {
 func (p *PostgresBackup) Backup(backupDir string) error {
 	// Create timestamp for the backup file
 	timestamp := time.Now().Format("2006-01-02-15-04-05")
-	backupFile := filepath.Join(backupDir, fmt.Sprintf("%s-%s.sql", p.config.Database, timestamp))
+	backupFile := filepath.Join(backupDir, fmt.Sprintf("%s-%s.sql", p.config.GetFilenamePrefix(), timestamp))
 
 	cmd := exec.Command("pg_dump",
 		"-h", p.config.Host,

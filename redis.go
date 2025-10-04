@@ -25,7 +25,7 @@ func NewRedisBackup(config DatabaseConfig) *RedisBackup {
 func (r *RedisBackup) Backup(backupDir string) error {
 	// Create timestamp for the backup file
 	timestamp := time.Now().Format("2006-01-02-15-04-05")
-	backupFile := filepath.Join(backupDir, fmt.Sprintf("%s-%s.resp", r.config.Database, timestamp))
+	backupFile := filepath.Join(backupDir, fmt.Sprintf("%s-%s.resp", r.config.GetFilenamePrefix(), timestamp))
 
 	// Build redis-cli command arguments for RESP export
 	args := []string{

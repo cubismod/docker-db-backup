@@ -9,6 +9,7 @@ databases:
     username: postgres
     password: your_password
     database: mydb
+    alias: "production-db"  # Optional: custom name for backup files
 
   - type: mysql
     host: localhost
@@ -16,6 +17,7 @@ databases:
     username: root
     password: your_password
     database: mydb
+    # No alias specified - will use database name "mydb" in filename
 
   - type: mariadb
     host: localhost
@@ -23,9 +25,11 @@ databases:
     username: root
     password: your_password
     database: mydb
+    alias: "customer-data"  # Optional: custom name for backup files
 
   - type: redis
     host: localhost
     port: 6379
     password: your_password  # Optional, leave empty if no auth
     database: "0"  # Redis database number (0-15)
+    alias: "cache-db"  # Optional: custom name for backup files
