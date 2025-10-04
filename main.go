@@ -28,6 +28,13 @@ func main() {
 	log.Printf("Loaded configuration for %d databases", len(config.Databases))
 	log.Printf("Backup directory: %s", config.BackupDir)
 
+	// Run pre-run pings if configured. Log failures but continue to backups.
+	if err := config.RunPrePings(); err != nil {
+		log.Printf("Pre-run pings failed: %v", err)
+	} else {
+		log.Println("Pre-run pings succeeded")
+	}
+
 	// Process each database
 	for _, dbConfig := range config.Databases {
 		log.Printf("Processing database: %s (%s)", dbConfig.Database, dbConfig.Type)
@@ -57,6 +64,13 @@ func main() {
 		default:
 			log.Printf("Unsupported database type: %s", dbConfig.Type)
 		}
+	}
+
+	// Run post-run pings if configured. Log failures but continue.
+	if err := config.RunPostPings(); err != nil {
+		log.Printf("Post-run pings failed: %v", err)
+	} else {
+		log.Println("Post-run pings succeeded")
 	}
 
 	log.Println("Backup process completed")

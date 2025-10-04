@@ -1,6 +1,15 @@
 # Backup directory where database dumps will be stored
 backup_dir: "./backups"
 
+# Optional: URLs to ping before the backup run completes and after the run completes.
+# Each URL will be called via HTTP GET. The example values below demonstrate usage.
+pre_ping_urls:
+  - "https://example.com/pre-job"
+post_ping_urls:
+  - "https://example.com/post-job"
+# Timeout (seconds) for each ping request. Defaults to 10 if not set.
+ping_timeout_seconds: 10
+
 # List of databases to backup
 databases:
   - type: postgres
