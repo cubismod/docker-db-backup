@@ -1,4 +1,4 @@
-FROM golang:1.25-alpine@sha256:6104e2bbe9f6a07a009159692fe0df1a97b77f5b7409ad804b17d6916c635ae5 AS builder
+FROM golang:1.25-alpine@sha256:8280f72610be84e514284bc04de455365d698128e0aaea4e12e06c9b320b58ec AS builder
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY *.go ./
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o db-backup .
 
-FROM alpine:3.22@sha256:4bcff63911fcb4448bd4fdacec207030997caf25e9bea4045fa6c8c44de311d1
+FROM alpine:3.22@sha256:4b7ce07002c69e8f3d704a9c5d6fd3053be500b7f1c69fc0d80990c2ad8dd412
 
 RUN apk add --no-cache \
     postgresql-client \
